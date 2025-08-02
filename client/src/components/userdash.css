@@ -1,0 +1,350 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    /* user-select: none; */
+
+}
+
+.app {
+    text-align: center;
+}
+
+.header {
+    /* background-color: #2e1a1a; */
+    background-color: #005580;
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: sticky;
+
+    top: 0;
+    z-index: 1000;
+
+}
+
+.logo-img-userside img {
+    /* height: 200px; */
+    height: 100px;
+    width: 300px;
+    margin: 0px 30px;
+}
+
+.auth-buttons {
+    display: flex;
+}
+
+.auth-buttons button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    position: relative;
+    right: 100px;
+
+}
+
+.auth-buttons button:hover {
+    opacity: 0.8;
+    color: black;
+}
+
+.auth-buttons svg {
+    color: #fff;
+    font-size: 30px;
+}
+
+.auth-buttons span {
+    display: none;
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
+
+.auth-buttons button:hover span {
+    display: block;
+}
+
+.user-main-content {
+    display: flex;
+
+}
+
+.usersidebar {
+    width: 200px;
+    /* background-color: #452929; */
+    background-color: #005580;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 1rem;
+    position: sticky;
+
+    top: 100px;
+
+    height: 100%;
+
+    overflow-y: clip;
+
+    padding-top: 0;
+
+    margin: 0px 0px;
+}
+
+.sidebar-link {
+    color: white;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.sidebar-link:hover {
+    background-color: #555;
+}
+
+.notes-list {
+    flex-grow: 1;
+    padding: 20px;
+    margin: 25px;
+    background-color: #f4f4f4;
+}
+
+.notes-list h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: #f0f0f0;
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    border: none;
+    background: transparent;
+    flex-grow: 1;
+    padding: 5px;
+}
+
+.search-bar input:focus {
+    outline: none;
+}
+
+.notes-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px 20px;
+    gap: 25px;
+}
+
+.note-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: calc(25% - 20px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.note-card h3 {
+    margin: 0 0 10px;
+    font-size: 1.2em;
+    word-break: break-all;
+}
+
+.note-card p {
+    margin: 0 0 20px;
+    word-break: break-all;
+}
+
+.note-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.add-note {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #007bff;
+    color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+
+.add-note svg {
+    width: 24px;
+    height: 24px;
+}
+
+
+.add-note .tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 10px;
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    z-index: 1;
+
+}
+
+
+.add-note .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+
+}
+
+
+.add-note:hover .tooltip-text {
+    visibility: visible;
+    opacity: 3;
+}
+
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    margin: 20px 0;
+}
+
+.button-container button {
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.button-container .request-form-btn {
+    background-color: #007BFF;
+}
+
+.button-container .request-form-btn:hover {
+    background-color: #0056b3;
+}
+
+.button-container .own-request-btn {
+    background-color: #28A745;
+}
+
+.button-container .own-request-btn:hover {
+    background-color: #1e7e34;
+}
+
+.button-container .messages-btn {
+    background-color: #FFC107;
+}
+
+.button-container .messages-btn:hover {
+    background-color: #e0a800;
+}
+
+.tooltip {
+    position: relative;
+
+    display: inline-block;
+
+}
+
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+
+    width: 80px;
+
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+
+    bottom: 125%;
+
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+
+}
+
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+
+    left: 50%;
+    margin-left: -5px;
+
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+
+}
+
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.note-actions .tooltip button {
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    color: black;
+}
+
+.edit-notes {
+    color: black;
+    margin: 6px 0px 0px 0px;
+}

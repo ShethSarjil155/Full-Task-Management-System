@@ -1,0 +1,1170 @@
+const mongoose = require("mongoose");
+const validator = require("validator");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const Skey = "soelshaikhshaikhsoelshaikhsoelab";
+
+const userSchema = new mongoose.Schema(
+  {
+    fname: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    role: {
+      type: String,
+      required: true,
+      trim: true,
+      default: "user",
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("Not a valid email");
+        }
+      },
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 6,
+    },
+    cpassword: {
+      type: String,
+      required: true,
+      minlength: 6,
+    },
+    isBlocked: {
+      type: String,
+      required: true,
+      default: "n",
+    },
+    tokens: [
+      {
+        token: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    team: {
+      type: String,
+      enum: [
+        "VFX",
+        "Design",
+        "PhotoShop",
+        "UI/UX",
+        "Developing",
+        "Social Media",
+        "Digital Marketing",
+      ],
+      required: false,
+    },
+    secretKey: {
+      type: String,
+      function() {
+        return this.isTeamLeader;
+      },
+    },
+    isTeamLeader: {
+      type: Boolean,
+      default: false,
+    },
+    teamLeaderAlert: { type: Boolean, default: false },
+    // Client Coordinator Fields
+    isClientCoordinator: {
+      type: Boolean,
+      default: false,
+    },
+    clientCoordinatorAlert: {
+      type: Boolean,
+      default: false,
+    },
+    dateCreated: {
+      type: Date,
+      default: Date.now,
+    },
+    designation: {
+      type: String,
+      enum: [
+        "TL",
+        "Client Coordinator",
+        "Designer",
+        "Developer",
+        "Photoshop Artist",
+        "VFX Artist",
+        "Content Writer",
+        "UI/UX",
+        "Manager Executive",
+      ],
+      required: false,
+    },
+  },
+  { timestamps: true }
+);
+
+userSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 12);
+    this.cpassword = await bcrypt.hash(this.cpassword, 12);
+  }
+  next();
+});
+
+userSchema.methods.generateAuthToken = async function () {
+  try {
+    const token = jwt.sign({ _id: this._id }, Skey, { expiresIn: "1d" });
+    this.tokens = this.tokens.concat({ token });
+    await this.save();
+    return token;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;  
+
+
+
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import "./reg.css"; // Make sure to include your CSS file
+const Register = () => {
+  const [fname, setFname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cpassword, setCpassword] = useState("");
+  const [team, setTeam] = useState(""); // New state for team selection
+  const [designation, setDesignation] = useState(""); // New state for designation selection
+  const [passShow, setPassShow] = useState(false);
+  const [cpassShow, setCPassShow] = useState(false);
+
+  const [fnameError, setFnameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [cPasswordError, setCpasswordError] = useState("");
+  const [teamError, setTeamError] = useState(""); // New state for team error
+  const [designationError, setDesignationError] = useState(""); // New state for designation error
+
+  const [selectedIndex, setSelectedIndex] = useState("");
+  const navigate = useNavigate();
+
+  const RegisterHandler = async (e) => {
+    e.preventDefault();
+
+    let submit = true;
+
+    if (selectedIndex === "") {
+      // Validate form inputs
+      if (fname === "") {
+        setFnameError("Please Enter Full Name");
+        submit = false;
+      } else {
+        setFnameError("");
+      }
+
+      if (email === "") {
+        setEmailError("Please Enter Email address");
+        submit = false;
+      } else if (!email.includes("@")) {
+        setEmailError("Please Enter Valid Email address");
+        submit = false;
+      } else {
+        setEmailError("");
+      }
+
+      if (password === "") {
+        setPasswordError("Please Enter Password");
+        submit = false;
+      } else if (password.length < 6) {
+        setPasswordError("Please Enter minimum 6 Character");
+        submit = false;
+      } else {
+        setPasswordError("");
+      }
+
+      if (cpassword === "") {
+        setCpasswordError("Please Enter Confirm Password");
+        submit = false;
+      } else if (cpassword.length < 6) {
+        setCpasswordError("Please Enter minimum 6 Character");
+        submit = false;
+      } else if (password !== cpassword) {
+        setCpasswordError("Password and Confirm Password not match");
+        submit = false;
+      } else {
+        setCpasswordError("");
+      }
+
+      if (team === "") {
+        setTeamError("Please select a team");
+        submit = false;
+      } else {
+        setTeamError("");
+      }
+
+      if (designation === "") {
+        setDesignationError("Please select a designation");
+        submit = false;
+      } else {
+        setDesignationError("");
+      }
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fname,
+          email,
+          password,
+          cpassword,
+          team, // Include team in request body
+          designation, // Include designation in request body
+        }),
+      });
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      if (responseData.status === 201) {
+        alert("User registration successful");
+        setFname("");
+        setEmail("");
+        setPassword("");
+        setCpassword("");
+        setTeam(""); // Reset team selection
+        setDesignation(""); // Reset designation selection
+        navigate("/login");
+      } else {
+        alert("Failed to register user: " + responseData.error);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while registering the user.");
+    }
+  };
+
+  const passwordShowHideHandler = () => {
+    setPassShow(!passShow);
+  };
+
+  const cPasswordShowHideHandler = () => {
+    setCPassShow(!cpassShow);
+  };
+
+  return (
+    <div className="reg-main">
+      <div className="container">
+        <h1>Leaf Note</h1>
+        <p>Your thoughts, beautifully organized.</p>
+        <form onSubmit={RegisterHandler}>
+          <div className="form_row">
+            <div className="form_input">
+              <label htmlFor="fname">Name</label>
+              <input
+                type="text"
+                onChange={(e) => setFname(e.target.value)}
+                value={fname}
+                name="fname"
+                id="fname"
+                placeholder="Enter Your Name"
+              />
+              <div style={{ color: "red" }}>{fnameError}</div>
+            </div>
+            <div className="form_input">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                name="email"
+                id="email"
+                placeholder="Enter Your Email Address"
+              />
+              <div style={{ color: "red" }}>{emailError}</div>
+            </div>
+          </div>
+          <div className="form_row">
+            <div className="form_input">
+              <label htmlFor="password">Password</label>
+              <div className="two">
+                <input
+                  type={passShow ? "text" : "password"}
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+                  name="password"
+                  id="password"
+                  placeholder="Enter Your password"
+                />
+                <div className="showpass" onClick={passwordShowHideHandler}>
+                  {passShow ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </div>
+              </div>
+              <div style={{ color: "red" }}>{passwordError}</div>
+            </div>
+            <div className="form_input">
+              <label htmlFor="cpassword">Confirm Password</label>
+              <div className="two">
+                <input
+                  type={cpassShow ? "text" : "password"}
+                  onChange={(e) => setCpassword(e.target.value)}
+                  value={cpassword}
+                  name="cpassword"
+                  id="cpassword"
+                  placeholder="Confirm password"
+                />
+                <div className="showpass" onClick={cPasswordShowHideHandler}>
+                  {cpassShow ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </div>
+              </div>
+              <div style={{ color: "red" }}>{cPasswordError}</div>
+            </div>
+          </div>
+          <div className="form_row">
+            <div className="form_input">
+              <label htmlFor="team">Team</label>
+              <select
+                name="team"
+                id="team"
+                value={team}
+                onChange={(e) => setTeam(e.target.value)}
+              >
+                <option value="">Select Team</option>
+                <option value="VFX">VFX</option>
+                <option value="Design">Design</option>
+                <option value="UI/UX">UI/UX</option>
+                <option value="PhotoShop">PhotoShop</option>
+                <option value="Developing">Developing</option>
+                <option value="Social Media">Social Media</option>
+                <option value="Digital Marketing">Digital Marketing</option>
+              </select>
+              <div style={{ color: "red" }}>{teamError}</div>
+            </div>
+            <div className="form_input">
+              <label htmlFor="designation">Designation</label>
+              <select
+                name="designation"
+                id="designation"
+                value={designation}
+                onChange={(e) => setDesignation(e.target.value)}
+              >
+                <option value="">Select Designation</option>
+                <option value="TL">TL</option>
+                <option value="Client Coordinator">Client Coordinator</option>
+                <option value="Designer">Designer</option>
+                <option value="Developer">Developer</option>
+                <option value="Photoshop Artist">Photoshop Artist</option>
+                <option value="VFX Artist">VFX Artist</option>
+                <option value="Content Writer">Content Writer</option>
+                <option value="UI/UX">UI/UX</option>
+                <option value="Manager Executive">Manager Executive</option>
+              </select>
+              <div style={{ color: "red" }}>{designationError}</div>
+            </div>
+          </div>
+          <button className="btn" type="submit">
+            Create My Account
+          </button>
+          <p>
+            Already have an account? <Link to="/login">Login instead</Link>
+          </p>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default Register;
+  
+
+import React, { useContext, useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { LoginContext } from "./ContextProvider/Context";
+import "./style.css";
+
+const Login = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginEmailError, setLoginEmailError] = useState("");
+  const [loginPassError, setLoginPassError] = useState("");
+  const [passShow, setPassShow] = useState(false);
+  const { setLoginData } = useContext(LoginContext);
+
+  const passwordShowHideHandler = () => {
+    setPassShow((prev) => !prev);
+  };
+
+  const loginHandler = async (e) => {
+    e.preventDefault();
+    let submit = true;
+
+    if (email === "") {
+      submit = false;
+      setLoginEmailError("Please Enter Email");
+    } else {
+      setLoginEmailError("");
+    }
+
+    if (password === "") {
+      submit = false;
+      setLoginPassError("Please Enter Password");
+    } else {
+      setLoginPassError("");
+    }
+
+    if (submit) {
+      try {
+        const login_api = await fetch("http://localhost:5000/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const res = await login_api.json();
+        if (res.status === 202) {
+          const role = res.result.role;
+          localStorage.setItem("usersdatatoken", res.result.token);
+          setLoginData(res.result.user);
+
+          if (role === "admin") {
+            alert("Admin Login Successful!");
+            navigate("/admin");
+          } else {
+            alert("Login Successful!");
+            navigate("/userdash");
+          }
+
+          setEmail("");
+          setPassword("");
+        } else if (
+          login_api.status === 403 &&
+          res.error === "User is blocked"
+        ) {
+          alert("You are  blocked.");
+          navigate("/Blocked");
+        } else {
+          alert("Invalid details");
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        alert("Failed to login. Please try again.");
+      }
+    }
+  };
+
+  const dashboardValid = async () => {
+    const token = localStorage.getItem("usersdatatoken");
+
+    if (!token) {
+      console.log("No token found in localStorage");
+      // Handle case where token is missing (redirect to login, display message, etc.)
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/api/validuser", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      if (data.status === 401 || !data.validUserOne) {
+        console.log("User not valid or authorized");
+        // Handle unauthorized user (redirect to login, clear token, etc.)
+        // For example:
+        // localStorage.removeItem("usersdatatoken");
+        // Redirect to login page
+      } else if (data.error === "User is blocked") {
+        navigate("/blockedstudenterror");
+      } else {
+        console.log("User verified");
+        // Handle authorized user (set user data in state/context, redirect to dashboard, etc.)
+        // For example:
+        // setLoginData(data.validUserOne);
+        navigate("/userdash");
+      }
+    } catch (error) {
+      console.error("Error fetching valid user:", error);
+      // Handle error (display error message, redirect to login, etc.)
+    }
+  };
+
+  useEffect(() => {
+    dashboardValid();
+  }, [setLoginData, navigate]);
+
+  return (
+    <div className="reg-login">
+      <div className="container1">
+        <h1>Leaf Note</h1>
+        <p>Your thoughts, beautifully organized.</p>
+        <form onSubmit={loginHandler}>
+          <div className="form_input">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              id="email"
+              placeholder="Enter Your Email Address"
+            />
+            <div style={{ color: "red" }}>{loginEmailError}</div>
+          </div>
+          <div className="form_input">
+            <label htmlFor="password">Password</label>
+            <div className="two">
+              <input
+                type={passShow ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                id="password"
+                placeholder="Enter Your Password"
+              />
+              <div className="showpass" onClick={passwordShowHideHandler}>
+                {passShow ? <VisibilityOffIcon /> : <VisibilityIcon />}
+              </div>
+            </div>
+            <div style={{ color: "red" }}>{loginPassError}</div>
+          </div>
+          <button className="btn" type="submit">
+            Login
+          </button>
+          <p>
+            Don't have an account?{" "}
+            <NavLink to="/register">Create an Account</NavLink>
+          </p>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
+
+
+router.post("/register", async (req, res) => {
+  const { fname, email, password, cpassword, team, designation } = req.body;
+
+  if (!fname || !email || !password || !cpassword || !team || !designation) {
+    return res.status(422).json({ error: "Please fill all the details" });
+  }
+
+  try {
+    const preuser = await User.findOne({ email: email });
+    if (preuser) {
+      return res.status(422).json({ error: "This email is already in use" });
+    }
+
+    if (password !== cpassword) {
+      return res.status(422).json({ error: "Passwords do not match" });
+    }
+
+    const newUser = new User({
+      fname,
+      email,
+      password,
+      cpassword,
+      team,
+      designation,
+    });
+    const savedUser = await newUser.save();
+
+    return res.status(201).json({ status: 201, data: savedUser });
+  } catch (error) {
+    return res.status(500).json({ error: "Failed to register user" });
+  }
+});
+
+//login main code
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(422).json({ error: "Please fill all the details" });
+  }
+
+  try {
+    console.log(`Attempting login for email: ${email}`);
+
+    // Check for User
+    const user = await User.findOne({ email });
+    if (user.isBlocked === "y") {
+      return res.status(403).json({ error: "User is blocked" });
+    }
+
+    if (!user) {
+      console.log("User not found");
+      return res.status(400).json({ error: "Invalid email or password" });
+    }
+
+    if (user.role == "admin") {
+      return res.status(202).json({
+        status: 202,
+        result: { role: "admin" },
+      });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      console.log("User password mismatch");
+      return res.status(400).json({ error: "Invalid email or password" });
+    }
+
+    const loginHistory = new LoginHistory({
+      role: "user",
+      userName: email,
+      loginTime: new Date(),
+      task: "login",
+    });
+
+    await loginHistory.save();
+
+    console.log("User password match");
+    const token = jwt.sign({ _id: user._id, role: "user" }, Skey, {
+      expiresIn: "2h",
+    });
+
+    console.log("User JWT token generated:", token);
+
+    res.cookie("usercookie", token, {
+      expires: new Date(Date.now() + 9000000000),
+      httpOnly: true,
+    });
+
+    console.log("User token set in cookie");
+
+    return res.status(202).json({
+      status: 202,
+      result: { user, token, role: "user" },
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Failed to login user" });
+  }
+});  
+
+
+import React, { useContext, useEffect, useState } from "react";
+import { FiEdit2, FiTrash2, FiPlus } from "react-icons/fi";
+import { MdPushPin } from "react-icons/md";
+import { IoMdLogIn } from "react-icons/io";
+import { FaRegRegistered } from "react-icons/fa";
+import { TbLogout2 } from "react-icons/tb";
+import { BiMessageSquareDetail, BiTask } from "react-icons/bi";
+import { BsCardList } from "react-icons/bs";
+import { HiOutlineBell } from "react-icons/hi";
+import "./userdash.css";
+import { NavLink, useNavigate } from "react-router-dom";
+import { LoginContext } from "./ContextProvider/Context";
+import logo from "./Images/Leaf way Logo White.png";
+import NotificationBadge from "./NotifyCount";
+import { RiTeamFill } from "react-icons/ri";
+import { MdAssignmentAdd } from "react-icons/md";
+import { GoVerified } from "react-icons/go";
+import { VscGitPullRequestNewChanges } from "react-icons/vsc";
+import { BsSend } from "react-icons/bs";
+import { FaTasks } from "react-icons/fa";
+import { CiViewList } from "react-icons/ci";
+
+const UserDashboard = () => {
+  const { logindata, setLoginData } = useContext(LoginContext);
+  const navigate = useNavigate();
+  const [list, setList] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredNotes = list.filter((note) =>
+    note.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const fetchNotes = async () => {
+    try {
+      const token = localStorage.getItem("usersdatatoken");
+      const res = await fetch("http://localhost:5000/api/getnotes", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch notes");
+      }
+
+      const data = await res.json();
+
+      const updatedList = data.map((note) => {
+        const storedNote = JSON.parse(localStorage.getItem(`note_${note._id}`));
+        if (storedNote) {
+          return { ...note, isPinned: storedNote.isPinned };
+        } else {
+          return { ...note, isPinned: false }; // Default to unpinned if not found in localStorage
+        }
+      });
+
+      const sortedNotes = updatedList.sort((a, b) => {
+        if (a.isPinned && !b.isPinned) {
+          return -1; // a comes before b (pinned notes first)
+        } else if (!a.isPinned && b.isPinned) {
+          return 1; // b comes before a (unpinned notes after pinned)
+        } else {
+          return 0; // maintain order for notes with same pinned status
+        }
+      });
+
+      setList(sortedNotes);
+    } catch (error) {
+      console.error("Error fetching notes:", error.message);
+    }
+  };
+
+  const fetchUserDetails = async () => {
+    try {
+      const token = localStorage.getItem("usersdatatoken");
+      const res = await fetch(`http://localhost:5000/api/user-details`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      if (data.teamLeaderAlert) {
+        alert("Congratulations! You are now a Team Leader.");
+        // Reset the alert
+        await fetch("http://localhost:5000/api/reset-team-leader-alert", {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId: data.userId }),
+        });
+      }
+
+      // Alert if user has been made a Client Coordinator
+      if (data.clientCoordinatorAlert) {
+        alert("Congratulations! You are now a Client Coordinator.");
+        // Reset the client coordinator alert
+        await fetch(
+          "http://localhost:5000/api/reset-client-coordinator-alert",
+          {
+            method: "PUT",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId: data.userId }),
+          }
+        );
+      }
+
+      // Continue with other logic...
+    } catch (error) {
+      console.error("Error fetching user details:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("usersdatatoken");
+
+    if (token && !logindata) {
+      const fetchUserData = async () => {
+        try {
+          const res = await fetch("http://localhost:5000/api/validuser", {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!res.ok) {
+            throw new Error("Failed to fetch user data");
+          }
+
+          const data = await res.json();
+
+          if (data.status === 401 || !data.validUserOne) {
+            localStorage.removeItem("usersdatatoken");
+            navigate("/login");
+          } else {
+            setLoginData(data.validUserOne);
+            fetchUserDetails();
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error.message);
+        }
+      };
+
+      fetchUserData();
+    } else if (logindata) {
+      fetchNotes();
+    }
+  }, [logindata, navigate, setLoginData]);
+
+  const deleteNote = async (id) => {
+    const userConfirmed = window.confirm(
+      "Are you sure you want to delete this note?"
+    );
+
+    if (!userConfirmed) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("usersdatatoken");
+      const res = await fetch(`http://localhost:5000/api/deletenote/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to delete note");
+      }
+
+      await res.json();
+      fetchNotes();
+      navigate("/userdash");
+    } catch (error) {
+      console.error("Error deleting note:", error.message);
+      alert("Failed to delete note.");
+    }
+  };
+
+  const pinNote = async (id) => {
+    try {
+      const token = localStorage.getItem("usersdatatoken");
+      const res = await fetch(`http://localhost:5000/api/pinnote/${id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to pin note");
+      }
+
+      const updatedList = list.map((note) =>
+        note._id === id ? { ...note, isPinned: !note.isPinned } : note
+      );
+
+      const sortedNotes = updatedList.sort((a, b) =>
+        a.isPinned === b.isPinned ? 0 : a.isPinned ? -1 : 1
+      );
+
+      setList(sortedNotes);
+
+      const updatedNote = updatedList.find((note) => note._id === id);
+      if (updatedNote) {
+        localStorage.setItem(
+          `note_${id}`,
+          JSON.stringify({ isPinned: updatedNote.isPinned })
+        );
+      } else {
+        localStorage.removeItem(`note_${id}`);
+      }
+    } catch (error) {
+      console.error("Error pinning note:", error.message);
+      alert("Failed to pin note.");
+    }
+  };
+
+  const logout = async () => {
+    const token = localStorage.getItem("usersdatatoken");
+
+    if (token) {
+      try {
+        const res = await fetch("http://localhost:5000/api/logout", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: "include",
+        });
+
+        if (!res.ok) {
+          const error = await res.json();
+          throw new Error(error.message);
+        }
+
+        localStorage.removeItem("usersdatatoken");
+        setLoginData(null);
+        navigate("/login");
+      } catch (error) {
+        console.error("Logout error:", error.message);
+      }
+    } else {
+      console.log("No token found");
+    }
+  };
+
+  const goLogin = () => {
+    navigate("/login");
+  };
+
+  const goRegister = () => {
+    navigate("/register");
+  };
+
+  const requestform = () => {
+    navigate("/request");
+  };
+
+  const ownrequest = () => {
+    navigate("/ownrequest");
+  };
+  const messages = () => {
+    navigate("/viewmessage");
+  };
+  const taskform = () => {
+    navigate("/taskform");
+  };
+  const tasklists = () => {
+    navigate("/tasklist");
+  };
+  const notification = () => {
+    navigate("/notification");
+  };
+  const team = () => {
+    navigate("/team-members");
+  };
+
+  return (
+    <div className="dashboard-container">
+      <header className="header">
+        <div className="logo-img-userside">
+          <img src={logo} alt="Logo" />
+        </div>
+        <div className="auth-buttons">
+          {logindata ? (
+            <button onClick={logout}>
+              <TbLogout2 />
+              <span>Logout</span>
+            </button>
+          ) : (
+            <>
+              <button onClick={goLogin}>
+                <IoMdLogIn />
+                <span>Login</span>
+              </button>
+              <button onClick={goRegister}>
+                <FaRegRegistered />
+                <span>Register</span>
+              </button>
+            </>
+          )}
+        </div>
+      </header>
+      <div className="user-main-content">
+        <aside className="usersidebar">
+          <NavLink to="/addnotes" className="sidebar-link">
+            <FiPlus />
+            <span>Add Note</span>
+          </NavLink>
+          <NavLink to="/request" className="sidebar-link">
+            <BiMessageSquareDetail />
+            <span>Request Form</span>
+          </NavLink>
+          <NavLink to="/ownrequest" className="sidebar-link">
+            <BsCardList />
+            <span>Requests</span>
+          </NavLink>
+          <NavLink to="/notification" className="sidebar-link">
+            <HiOutlineBell />
+            <NotificationBadge />
+            <span>Notification</span>
+          </NavLink>
+          <NavLink to="/viewmessage" className="sidebar-link">
+            <BiMessageSquareDetail />
+            <span>Messages</span>
+          </NavLink>
+          {logindata?.isTeamLeader && (
+            <NavLink to="/team-members" className="sidebar-link">
+              <RiTeamFill />
+              <span>Team Members</span>
+            </NavLink>
+          )}
+          {logindata?.isTeamLeader && (
+            <NavLink to="/team-members-request" className="sidebar-link">
+              <VscGitPullRequestNewChanges />
+              <span>Team Requests</span>
+            </NavLink>
+          )}
+          {logindata?.isTeamLeader && (
+            <NavLink to="/team-leader-send-message" className="sidebar-link">
+              <BsSend />
+              <span>Send Message </span>
+            </NavLink>
+          )}
+          {logindata?.isTeamLeader && (
+            <NavLink to="/tltasklist" className="sidebar-link">
+              <FaTasks />
+              <span> Members Tasks</span>
+            </NavLink>
+          )}
+          {logindata?.isTeamLeader && (
+            <NavLink to="/viewclientmessage" className="sidebar-link">
+              <CiViewList />
+              <span>Client Messages</span>
+            </NavLink>
+          )}
+          {/* {logindata?.isTeamLeader && (
+            <NavLink to="/tltoteammates" className="sidebar-link">
+              <RiTeamFill />
+              <span>Assign to Team</span>
+            </NavLink>
+          )} */}
+
+          {logindata?.isClientCoordinator && (
+            <NavLink to="/cordinatortoleader" className="sidebar-link">
+              <MdAssignmentAdd />
+              <span>Assign Task</span>
+            </NavLink>
+          )}
+          {logindata?.isClientCoordinator && (
+            <NavLink to="/clientcoseeaccepttask" className="sidebar-link">
+              <GoVerified />
+              <span>Completed Task</span>
+            </NavLink>
+          )}
+
+          <NavLink to="/tasklist" className="sidebar-link">
+            <BiTask />
+            <span>Task Lists</span>
+          </NavLink>
+        </aside>
+        <div className="notes-list">
+          <h2>Welcome {logindata ? logindata.fname : "Guest"}!</h2>
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="Search notes..."
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
+          </div>
+          <h2>Your Notes</h2>
+          <div className="notes-container">
+            {filteredNotes.map((item) => (
+              <div key={item._id} className="note-card">
+                <h3>{item.title}</h3>
+                <p>{item.content}</p>
+                <div className="note-actions">
+                  <div className="tooltip ">
+                    <NavLink to={`/editnote/${item._id}`}>
+                      <FiEdit2 className="edit-notes" />
+                      <span className="tooltiptext">Edit</span>
+                    </NavLink>
+                  </div>
+                  <div className="tooltip usr-note-delete-button">
+                    <button onClick={() => deleteNote(item._id)}>
+                      <FiTrash2 />
+                      <span className="tooltiptext">Delete</span>
+                    </button>
+                  </div>
+                  <div className="tooltip">
+                    <button
+                      onClick={() => pinNote(item._id)}
+                      style={{ color: item.isPinned ? "blue" : "black" }}
+                    >
+                      <MdPushPin />
+                      <span className="tooltiptext">
+                        {item.isPinned ? "Unpin" : "Pin"}
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="add-note">
+              <NavLink to="/addnotes">
+                <FiPlus />
+              </NavLink>
+              <span className="tooltip-text">Add a note</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default UserDashboard;
+
+router.get("/validuser", authenticate, async (req, res) => {
+  try {
+    if (!req.rootUser) {
+      return res
+        .status(401)
+        .json({ status: 401, error: "User not authorized" });
+    }
+
+    let validUserOne;
+
+    if (req.rootUser.role === "admin") {
+      validUserOne = await AdminAccs.findOne({ _id: req.rootUser._id });
+    } else if (req.rootUser.role === "client") {
+      validUserOne = await AdminAccs.findOne({ _id: req.rootUser._id });
+    } else {
+      validUserOne = await User.findOne({ _id: req.rootUser._id });
+    }
+
+    if (!validUserOne) {
+      return res
+        .status(401)
+        .json({ status: 401, error: "User not authorized" });
+    }
+
+    res.status(200).json({ status: 200, validUserOne });
+  } catch (error) {
+    console.error("Error fetching valid user:", error);
+    res.status(500).json({ status: 500, error: "Server error" });
+  }
+});

@@ -1,0 +1,105 @@
+/* Container for the task form */
+/* Container for the task form */
+.taskmain-container-bg {
+
+    height: 100vh;
+
+    /* Ensure it covers the full width of the viewport */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Prevent scrolling */
+}
+
+
+.task-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #121212;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 30vw;
+}
+
+/* Styling for the form header */
+.task-form-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #ddd7d7;
+}
+
+/* Styling for the form itself */
+form {
+    width: 100%;
+}
+
+/* Styling for each form group (label + input) */
+.form-group-user {
+    margin-bottom: 20px;
+}
+
+/* Styling for the form labels */
+.form-group-user label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #c2bcbc;
+}
+
+/* Styling for the form inputs */
+.task-form-container .form-group-user input[type="text"],
+.form-group-user .rdt {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
+}
+
+.form-group-user input[type="text"]:focus,
+.form-group-user .rdt:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Styling for the submit button */
+.task-add[type="submit"] {
+    width: 100%;
+    padding: 10px 0;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.task-add[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Datetime picker styling adjustments */
+.rdt input {
+    padding: 10px;
+    border: 1px solid #040404;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
+}
+
+.rdt input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.error-text {
+    color: red;
+}

@@ -1,0 +1,107 @@
+.assignTaskForm-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.assignTaskForm-heading {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.assignTaskForm-company,
+.assignTaskForm-task,
+.assignTaskForm-preview {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.assignTaskForm-assignSection {
+    margin-top: 20px;
+}
+
+.assignTaskForm-subHeading {
+    font-size: 20px;
+    color: #444;
+    margin-bottom: 15px;
+}
+
+.assignTaskForm-splitContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.assignTaskForm-label {
+    flex: 1 1 100%;
+    font-size: 14px;
+    color: #555;
+}
+
+.assignTaskForm-select,
+.assignTaskForm-input {
+    flex: 1;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.assignTaskForm-removeButton,
+.assignTaskForm-addButton,
+.assignTaskForm-submitButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.assignTaskForm-removeButton {
+    background-color: #dc3545;
+}
+
+.assignTaskForm-removeButton:hover,
+.assignTaskForm-addButton:hover,
+.assignTaskForm-submitButton:hover {
+    background-color: #0056b3;
+}
+
+.assignTaskForm-removeButton:hover {
+    background-color: #c82333;
+}
+
+.assignTaskForm-assignedSection {
+    margin-top: 20px;
+}
+
+.assignTaskForm-assignedList {
+    list-style: none;
+    padding: 0;
+}
+
+.assignTaskForm-assignedItem {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.assignTaskForm-submitButton {
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    margin-top: 20px;
+}

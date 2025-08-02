@@ -1,0 +1,12 @@
+.App {
+    display: flex;
+}
+
+.admin-main-content {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.main-content h1 {
+    margin-bottom: 20px;
+}

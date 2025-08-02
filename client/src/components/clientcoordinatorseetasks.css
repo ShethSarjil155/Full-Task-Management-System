@@ -1,0 +1,134 @@
+/* Container for tasks */
+.clientCoordinatorTasksContainer {
+    padding: 40px;
+    margin: 30px auto;
+    max-width: 900px;
+    background: linear-gradient(145deg, #ffffff, #f8f8f8);
+    /* Light gradient */
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Title styling */
+.clientCoordinatorTasksContainer h1 {
+    text-align: center;
+    font-size: 32px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 3px solid #ddd;
+    padding-bottom: 10px;
+}
+
+/* Task list container */
+.tasksList {
+    list-style: none;
+    padding: 0;
+}
+
+/* Individual task card */
+.taskCard {
+    background: linear-gradient(135deg, #ffffff, #f7f7f7);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect for task card */
+.taskCard:hover {
+    transform: scale(1.03);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Task title */
+.taskCard h3 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #0078d7;
+    /* Vibrant blue */
+    margin-bottom: 15px;
+}
+
+/* Task details */
+.taskDetails {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+/* Buttons container */
+.taskActions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Common button styles */
+.taskButton {
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    text-transform: uppercase;
+}
+
+/* Accept button */
+.taskAcceptButton {
+    background: linear-gradient(145deg, #34d058, #28a745);
+    /* Green gradient */
+    color: white;
+}
+
+.taskAcceptButton:hover {
+    background: linear-gradient(145deg, #28a745, #218838);
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4);
+}
+
+/* Reject button */
+.taskRejectButton {
+    background: linear-gradient(145deg, #f45d48, #e53935);
+    /* Red gradient */
+    color: white;
+}
+
+.taskRejectButton:hover {
+    background: linear-gradient(145deg, #e53935, #d32f2f);
+    box-shadow: 0 6px 15px rgba(229, 57, 53, 0.4);
+}
+
+/* Empty state styling */
+.noTasks {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+    font-style: italic;
+    padding: 20px;
+}
+
+/* Responsive design */
+@media (min-width: 768px) {
+    .taskCard {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .taskDetails {
+        flex-grow: 1;
+    }
+
+    .taskActions {
+        flex-shrink: 0;
+    }
+}

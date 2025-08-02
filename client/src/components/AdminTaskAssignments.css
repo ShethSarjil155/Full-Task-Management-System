@@ -1,0 +1,88 @@
+/* .finalstasks-admin-task-assignments {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.finalstasks-back-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.finalstasks-back-button:hover {
+    background-color: #0056b3;
+}
+
+.finalstasks-title {
+    margin-bottom: 20px;
+    color: #444;
+}
+
+.finalstasks-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    overflow-x: auto;
+    display: block;
+}
+
+.finalstasks-th,
+.finalstasks-td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.finalstasks-th {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.finalstasks-td {
+    color: #555;
+}
+
+.finalstasks-tr:hover {
+    background-color: #f1f1f1;
+}
+ */
+
+
+.finalstasks-admin-task-assignments {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.finalstasks-back-button {
+    margin-bottom: 20px;
+}
+
+.finalstasks-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.finalstasks-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.finalstasks-th,
+.finalstasks-td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.finalstasks-tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.finalstasks-tr:hover {
+    background-color: #ddd;
+}

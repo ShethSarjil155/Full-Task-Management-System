@@ -1,0 +1,29 @@
+.team-container {
+    display: flex;
+}
+
+.team-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.team-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.team-table th,
+.team-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.team-table th {
+    background-color: #f4f4f4;
+    text-align: left;
+}
+
+h2 {
+    margin-bottom: 20px;
+}

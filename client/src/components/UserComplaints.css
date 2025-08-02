@@ -1,0 +1,219 @@
+/* 
+.complaints-container {
+    background-color: #000;
+    
+    color: #fff;
+   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: 100vh;
+} */
+
+/* Header section containing the back arrow and heading */
+/* .complaints-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+    justify-content: space-between;
+} */
+
+/* Styling for the back arrow icon */
+/* .back-arrow {
+    cursor: pointer;
+    font-size: 24px;
+    margin-top: -10px;
+} */
+
+/* Heading for the complaints section */
+/* .complaints-heading {
+    font-size: 24px;
+    text-align: center;
+    flex-grow: 1;
+} */
+
+/* List of complaints */
+/* .complaints-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+} */
+
+/* Individual complaint card */
+/* .complaint-card {
+    background-color: #333;
+   
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
+   
+    overflow-wrap: break-word;
+   
+    white-space: pre-wrap;
+    
+} */
+
+/* Content within a complaint card */
+
+
+/* Text within a complaint card */
+/* .complaint-text {
+    margin: 5px 0;
+} */
+
+/* Time within a complaint card */
+/* .complaint-time {
+    font-size: 12px;
+    color: #bbb;
+    margin-bottom: 10px;
+} */
+
+/* Container for the delete icon */
+/* .delete-container {
+    align-self: flex-end;
+} */
+
+/* Styling for the delete icon */
+/* .delete-icon {
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 18px;
+} */
+
+/* Hover effect for the delete icon */
+/* .delete-icon:hover {
+    color: red;
+} */
+
+/* Main container for the complaints page */
+.complaints-container {
+    background-color: #000;
+    /* Black background */
+    color: #fff;
+    /* White text */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Header section containing the back arrow and heading */
+.complaints-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+/* Styling for the back arrow icon */
+.back-arrow {
+    cursor: pointer;
+    font-size: 24px;
+    margin-top: -10px;
+}
+
+/* Heading for the complaints section */
+.complaints-heading {
+    font-size: 24px;
+    text-align: center;
+    flex-grow: 1;
+}
+
+/* List of complaints */
+.complaints-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+/* Individual complaint card */
+.complaint-card {
+    background-color: #333;
+    /* Dark grey background */
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
+    /* Ensure long words wrap */
+    overflow-wrap: break-word;
+    /* Ensure long words wrap */
+    white-space: pre-wrap;
+    /* Preserve white space and wrap as necessary */
+}
+
+/* Content within a complaint card */
+.complaint-content {
+    margin-bottom: 15px;
+}
+
+/* Text within a complaint card */
+.complaint-text {
+    margin: 5px 0;
+}
+
+/* Time within a complaint card */
+.complaint-time {
+    font-size: 12px;
+    color: #bbb;
+    margin-bottom: 10px;
+}
+
+/* Status within a complaint card */
+.complaint-status {
+    font-size: 14px;
+    color: #4caf50;
+    /* Green color for status */
+    margin-bottom: 10px;
+}
+
+/* Container for the delete icon */
+.delete-container {
+    align-self: flex-end;
+}
+
+/* Styling for the delete icon */
+.delete-icon {
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 18px;
+}
+
+/* Hover effect for the delete icon */
+.delete-icon:hover {
+    color: red;
+}
+
+/* UserComplaints.css */
+
+.complaint-status {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.complaint-status.solved {
+    color: rgb(20, 185, 20);
+}
+
+.complaint-status.rejected {
+    color: red;
+}

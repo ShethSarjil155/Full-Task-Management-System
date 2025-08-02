@@ -1,0 +1,133 @@
+I don't know why when I enter devloping team seo and design and it's keys it is good but when I enter videoediting and digital marketing team they give error like invalid team or skey I don't know why 
+
+import React, { useContext, useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { LoginContext } from "./ContextProvider/Context";
+import "./style.css";
+
+const Login = () => {
+  const navigate = useNavigate();
+  const { setLoginData } = useContext(LoginContext);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLeader, setIsLeader] = useState(false);
+  const [team, setTeam] = useState("");
+  const [secretKey, setSecretKey] = useState("");
+
+  const loginHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const login_api = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, isLeader, team, secretKey }),
+      });
+
+      const res = await login_api.json();
+      if (res.status === 202) {
+        localStorage.setItem("usersdatatoken", res.result.token);
+        setLoginData(res.result.user);
+
+        if (res.result.role === "user") {
+          alert("Login Successful!");
+          navigate(`/userdash`);
+        } else {
+          alert("Login Successful!");
+          navigate("/userdash");
+        }
+
+        setEmail("");
+        setPassword("");
+        setIsLeader(false);
+        setTeam("");
+        setSecretKey("");
+      } else {
+        alert(res.error || "Invalid details");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Failed to login. Please try again.");
+    }
+  };
+
+  return (
+    <div className="reg-login">
+      <div className="container1">
+        <h1>Leaf Note</h1>
+        <p>Your thoughts, beautifully organized.</p>
+        <form onSubmit={loginHandler}>
+          <div className="form_input">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter Your Email Address"
+            />
+          </div>
+          <div className="form_input">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter Your Password"
+            />
+          </div>
+          <div className="form_input">
+            <label>
+              <input
+                type="checkbox"
+                checked={isLeader}
+                onChange={(e) => setIsLeader(e.target.checked)}
+              />
+              Are you a leader?
+            </label>
+          </div>
+          {isLeader && (
+            <>
+              <div className="form_input">
+                <label htmlFor="team">Select Team</label>
+                <select value={team} onChange={(e) => setTeam(e.target.value)}>
+                  <option value="">Select Team</option>
+                  <option value="Developing">Developing</option>
+                  <option value="Design">Design</option>
+                  <option value="Video Editing">VideoEditing</option>
+                  <option value="SEO">SEO</option>
+                  <option value="Marketing">DigitalMarketing</option>
+                </select>
+              </div>
+              <div className="form_input">
+                <label htmlFor="secretKey">Secret Key</label>
+                <input
+                  type="password"
+                  value={secretKey}
+                  onChange={(e) => setSecretKey(e.target.value)}
+                  placeholder="Enter Secret Key"
+                />
+              </div>
+            </>
+          )}
+          <button className="btn" type="submit">
+            Login
+          </button>
+
+          <p>
+            Don't have an account?
+            <NavLink to="/register">Create an Account</NavLink>
+          </p>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default Login; 
+
+thi sis the login page code we have to make changes that leader is also a user so role is user but when it login with secret key and team the alert shows welcome team leader and other user login than login succesfully and take back the password show icons in both password ans secret key field 

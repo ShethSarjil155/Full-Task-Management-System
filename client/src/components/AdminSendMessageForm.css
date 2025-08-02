@@ -1,0 +1,66 @@
+.tlsendmessageform {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000000;
+    /* Black background color */
+    height: 100vh;
+}
+
+.tlsend-message-form {
+    width: 30vw;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #1c1c1c;
+    /* Dark gray for form background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tlform-group {
+    margin-bottom: 15px;
+}
+
+.tlform-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ecf0f1;
+}
+
+.tlform-control,
+.tlform-control-file {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #2e2e2e;
+    border-radius: 5px;
+    background-color: #333333;
+    color: #ecf0f1;
+}
+
+.tlform-control:focus,
+.tlform-control-file:focus {
+    border-color: #555555;
+    outline: none;
+}
+
+textarea.tlform-control {
+    height: 100px;
+    resize: none;
+}
+
+.tlsendddd {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #555555;
+    color: #ecf0f1;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tlsendddd:hover {
+    background-color: #777777;
+}

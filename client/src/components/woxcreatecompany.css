@@ -1,0 +1,81 @@
+/* Style for the container holding the sidebar and main content */
+.admin-dashboard {
+    display: flex;
+
+}
+
+
+
+
+/* Main content styling */
+.main-content {
+    margin-left: 450px;
+    flex-grow: 1;
+    padding: 20px;
+    /* margin-top: -950px; */
+}
+
+
+.wox-content-styling {
+    margin-top: -1150px;
+}
+
+
+
+h2 {
+    margin-bottom: 20px;
+}
+
+/* Form input styling */
+.form-input input {
+    width: 98%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Button styling */
+button {
+    padding: 10px 15px;
+    background-color: #28a745;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Error message styling */
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+/* Companies list */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+ul li button {
+    background-color: #dc3545;
+    color: white;
+}
+
+ul li button:hover {
+    background-color: #c82333;
+}

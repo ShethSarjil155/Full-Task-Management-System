@@ -1,0 +1,124 @@
+.task-list-container {
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+li div {
+    margin-bottom: 8px;
+}
+
+li strong {
+    font-weight: bold;
+}
+
+.task-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.task-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Container for edit form */
+.edit-form-container-tasklist {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: block;
+}
+
+/* Edit form heading */
+.edit-form-container-tasklist h3 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+/* Form group for input fields */
+.edit-form-container-tasklist .form-group-tasklist-edit-form {
+    margin-bottom: 15px;
+    color: #0b97ba;
+}
+
+/* Input fields in the form */
+.edit-form-container-tasklist input {
+    width: 95%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+/* Flex container for buttons */
+.edit-form-buttons {
+    display: flex;
+    gap: 10px;
+    /* Space between buttons */
+}
+
+/* Update and Cancel buttons */
+.edit-form-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    /* Added transition for transform */
+}
+
+/* Style for Update Task button */
+.edit-form-buttons button[type="submit"] {
+    background-color: #4caf50;
+    /* Green background */
+    color: white;
+}
+
+.edit-form-buttons button[type="submit"]:hover {
+    background-color: #45a049;
+    /* Darker green on hover */
+    transform: scale(1.05);
+    /* Slightly enlarge on hover */
+}
+
+/* Style for Cancel button */
+.edit-form-buttons button[type="button"] {
+    background-color: #f44336;
+    /* Red background */
+    color: white;
+}
+
+.edit-form-buttons button[type="button"]:hover {
+    background-color: #e53935;
+    /* Darker red on hover */
+    transform: scale(1.05);
+    /* Slightly enlarge on hover */
+}

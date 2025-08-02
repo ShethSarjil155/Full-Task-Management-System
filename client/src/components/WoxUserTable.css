@@ -1,0 +1,52 @@
+.wox-user-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.wox-table-header,
+.wox-table-row {
+    display: flex;
+}
+
+.wox-table-cell {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    flex: 1;
+}
+
+.wox-status {
+    padding: 5px 10px;
+    border-radius: 12px;
+}
+
+.wox-status.active {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.wox-status.blocked {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.wox-b-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.wox-unb-button {
+    background-color: #ff351fee;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.wox-view-button:hover {
+    background-color: #0056b3;
+}

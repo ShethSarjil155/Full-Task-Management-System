@@ -1,0 +1,69 @@
+.tlsm {
+    background-color: #121212;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tlsmsendmessageform {
+    background: #121212;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    width: 500px;
+
+
+    /* Center the form */
+}
+
+.tlsmsend-message-form {
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.tlsmform-group {
+    margin-bottom: 15px;
+}
+
+.tlsmform-control,
+.tlsmform-control-file {
+    width: 95%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #333;
+    background-color: #222;
+    color: #fff;
+}
+
+.tlsmform-control::placeholder,
+.tlsmform-control-file::placeholder {
+    color: #aaa;
+
+}
+
+.btn-primary.tlsmsendddd {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: fit-content;
+    align-self: center;
+    /* Center the button */
+}
+
+.tlsmform-group label {
+    color: aliceblue;
+}
+
+.btn-primary.tlsmsendddd {
+    background-color: #7169cb;
+}
+
+.btn-primary.tlsmsendddd:hover {
+    background-color: #555;
+}

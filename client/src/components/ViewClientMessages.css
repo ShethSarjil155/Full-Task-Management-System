@@ -1,0 +1,56 @@
+/* Container for the entire message section */
+.viewclientmessage-messages-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.viewclientmessage-h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Container for the list of messages */
+.viewclientmessage-messages-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Styling individual message cards */
+.viewclientmessage-message-card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.viewclientmessage-message-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Styling text within message cards */
+.viewclientmessage-message-card p {
+    margin: 8px 0;
+    color: #555;
+    font-size: 16px;
+}
+
+.viewclientmessage-message-card strong {
+    color: #333;
+}
+
+.viewclientmessage-message-card small {
+    color: #888;
+}
+
+/* Date formatting */
+.viewclientmessage-message-card small strong {
+    color: #333;
+}

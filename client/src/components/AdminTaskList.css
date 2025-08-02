@@ -1,0 +1,72 @@
+.admin-task-list-container {
+    display: flex;
+    height: 100%;
+}
+
+.task-list-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+li div {
+    margin-bottom: 8px;
+}
+
+li strong {
+    font-weight: bold;
+}
+
+/* AdminTaskList.css */
+/* 
+.admin-task-list-container {
+    display: flex;
+}
+
+.task-list-content {
+    margin-left: 200px;
+   
+    padding: 20px;
+}
+
+.task-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+button {
+    background-color: #007bff;
+    
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+} */

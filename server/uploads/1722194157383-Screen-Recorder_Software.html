@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Screen Recorder Software</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #app {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 300px;
+        text-align: center;
+      }
+
+      #video-preview {
+        width: 100%;
+        border-radius: 5px;
+        margin-bottom: 10px;
+      }
+
+      #start-btn,
+      #stop-btn {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+      }
+
+      #stop-btn {
+        background-color: #f44336;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <h1>Screen Recorder</h1>
+      <video id="video-preview" muted playsinline></video>
+      <button id="start-btn" onclick="startRecording()">Start Recording</button>
+      <button id="stop-btn" onclick="stopRecording()" disabled>
+        Stop Recording
+      </button>
+
+      <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
+      <script>
+        let recorder;
+        let videoPreview = document.getElementById("video-preview");
+        let startBtn = document.getElementById("start-btn");
+        let stopBtn = document.getElementById("stop-btn");
+
+        function startRecording() {
+          navigator.mediaDevices
+            .getDisplayMedia({ video: true, audio: true })
+            .then((stream) => {
+              videoPreview.srcObject = stream;
+              recorder = RecordRTC(stream, { type: "video" });
+              recorder.startRecording();
+              toggleButtons(true);
+            })
+            .catch((error) =>
+              console.error("Error accessing media devices:", error)
+            );
+        }
+
+        function stopRecording() {
+          recorder.stopRecording(() => {
+            let blob = recorder.getBlob();
+            videoPreview.srcObject = null;
+            videoPreview.src = URL.createObjectURL(blob);
+            downloadBlob(blob);
+            recorder.destroy();
+            toggleButtons(false);
+          });
+        }
+
+        function toggleButtons(isRecording) {
+          startBtn.disabled = isRecording;
+          stopBtn.disabled = !isRecording;
+        }
+
+        function downloadBlob(blob) {
+          let link = document.createElement("a");
+          let timestamp = new Date().toISOString().replace(/:/g, "-");
+          link.href = URL.createObjectURL(blob);
+          link.download = `recording_${timestamp}.webm`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      </script>
+    </div>
+  </body>
+</html>

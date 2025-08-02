@@ -1,0 +1,330 @@
+/* General Styling */
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.wox-dashboard-container {
+    background-color: #000;
+    /* Black theme */
+    color: white;
+}
+
+.wox-header {
+    background-color: #222;
+    /* Darker header */
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.wox-logo-img-userside img {
+    height: 100px;
+    width: auto;
+    margin: 0 30px;
+}
+
+.wox-auth-buttons {
+    display: flex;
+}
+
+.wox-auth-buttons button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    position: relative;
+    right: 100px;
+    color: white;
+}
+
+.wox-auth-buttons button:hover {
+    opacity: 0.8;
+    color: #888;
+}
+
+.wox-auth-buttons svg {
+    font-size: 30px;
+}
+
+.wox-auth-buttons span {
+    display: none;
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    padding: 5px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    color: white;
+}
+
+.wox-auth-buttons button:hover span {
+    display: block;
+}
+
+/* Main Content Styling */
+.wox-main-content {
+    display: flex;
+}
+
+.woxuser-sidebar {
+    width: 200px;
+    background-color: #333;
+
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 1rem;
+    position: sticky;
+    top: 100px;
+    height: 100%;
+    padding-top: 0;
+}
+
+.wox-sidebar-link {
+    color: white;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.wox-sidebar-link:hover {
+    background-color: #444;
+}
+
+.wox-notes-list {
+    flex-grow: 1;
+    padding: 20px;
+    margin: 25px;
+    background-color: #111;
+    color: white;
+}
+
+.wox-notes-list h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ff6600;
+}
+
+/* Search Bar */
+.wox-search-bar {
+    display: flex;
+    align-items: center;
+    background: #333;
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.wox-search-bar input {
+    border: none;
+    background: transparent;
+    color: white;
+    flex-grow: 1;
+    padding: 5px;
+}
+
+.wox-search-bar input:focus {
+    outline: none;
+}
+
+/* Notes Container */
+.wox-notes-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 20px;
+    gap: 25px;
+}
+
+.wox-note-card {
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 20px;
+    width: calc(25% - 20px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    color: white;
+}
+
+.wox-note-card h3 {
+    margin: 0 0 10px;
+    font-size: 1.2em;
+    word-break: break-all;
+    color: white;
+}
+
+.wox-note-card p {
+    margin: 0 0 20px;
+    word-break: break-all;
+    color: #ccc;
+}
+
+.wox-note-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    align-items: baseline;
+}
+
+.wox-note-actions button {
+    border: none;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+}
+
+.wox-note-actions button:hover {
+    color: #888;
+}
+
+/* Add Note Button */
+.wox-add-note {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #007bff;
+    color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.wox-add-note svg {
+    width: 24px;
+    height: 24px;
+}
+
+.wox-add-note .wox-tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 10px;
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1;
+}
+
+.wox-add-note .wox-tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+}
+
+.wox-add-note:hover .wox-tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    /* Fixed opacity value */
+}
+
+/* Button Container */
+.wox-button-container {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    margin: 20px 0;
+}
+
+.wox-button-container button {
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.wox-button-container .request-form-btn {
+    background-color: #007bff;
+}
+
+.wox-button-container .request-form-btn:hover {
+    background-color: #0056b3;
+}
+
+.wox-button-container .own-request-btn {
+    background-color: #28a745;
+}
+
+.wox-button-container .own-request-btn:hover {
+    background-color: #1e7e34;
+}
+
+.wox-button-container .messages-btn {
+    background-color: #ffc107;
+}
+
+.wox-button-container .messages-btn:hover {
+    background-color: #e0a800;
+}
+
+.wox-tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.wox-tooltip .tooltiptext {
+    visibility: hidden;
+    width: 80px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.wox-tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+}
+
+.wox-tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
